@@ -207,6 +207,7 @@ class DropDownPicker extends React.Component {
         const placeholderStyle = isPlaceholderActive && this.props.placeholderStyle;
         const opacity = disabled ? 0.5 : 1;
         const items = this.getItems();
+        const { separator } = this.props;
 
         return (
             <View style={[this.props.containerStyle, {
@@ -280,32 +281,34 @@ class DropDownPicker extends React.Component {
                     <ScrollView style={{width: '100%'}} nestedScrollEnabled={true}>
                         {
                             items.length > 0 ? items.map((item, index) => (
-                                <TouchableOpacity
-                                    key={index}
-                                    onPress={() => this.select(item, index)}
-                                    style={[styles.dropDownItem, this.props.itemStyle, (
-                                        this.state.choice.value === item.value && this.props.activeItemStyle
-                                    ), {
-                                        opacity: item?.disabled || false === true ? 0.3 : 1,
-                                        ...(
-                                            multiple && {
-                                                flexDirection: 'row',
-                                                alignItems: 'center',
-                                                justifyContent: 'space-between'
-                                            }
-                                        )
-                                    }]}
-                                    disabled={item?.disabled || false === true}
-                                >
-                                    <Text style={[this.props.labelStyle, 
-                                        this.state.choice.value === item.value && this.props.activeLabelStyle
-                                    ]}>{item.label}</Text>
-                                    {
-                                        multiple && this.state.choice.findIndex(i => i.label === item.label && i.value === item.value) > -1 && (
-                                            this.props.customTickIcon()
-                                        )
-                                    }
-                                </TouchableOpacity>
+                                <React.Fragment key={index}>
+                                    {separator && index > 0 && separator}
+                                    <TouchableOpacity
+                                        onPress={() => this.select(item, index)}
+                                        style={[styles.dropDownItem, this.props.itemStyle, (
+                                            this.state.choice.value === item.value && this.props.activeItemStyle
+                                        ), {
+                                            opacity: item?.disabled || false === true ? 0.3 : 1,
+                                            ...(
+                                                multiple && {
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between'
+                                                }
+                                            )
+                                        }]}
+                                        disabled={item?.disabled || false === true}
+                                    >
+                                        <Text style={[this.props.labelStyle, 
+                                            this.state.choice.value === item.value && this.props.activeLabelStyle
+                                        ]}>{item.label}</Text>
+                                        {
+                                            multiple && this.state.choice.findIndex(i => i.label === item.label && i.value === item.value) > -1 && (
+                                                this.props.customTickIcon()
+                                            )
+                                        }
+                                    </TouchableOpacity>
+                                </React.Fragment>
                             )) : (
                                 <Text style={[styles.notFound, {
                                     fontFamily: this.props.labelStyle?.fontFamily
