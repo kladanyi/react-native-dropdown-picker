@@ -266,6 +266,7 @@ class DropDownPicker extends React.Component {
                         <View style={{width: '100%', flexDirection: 'row'}}>
                             <TextInput
                                 style={[styles.input, this.props.searchableStyle]}
+                                placeholderTextColor={this.props.searchablePlaceholderTextColor}
                                 defaultValue={this.state.searchableText}
                                 placeholder={this.props.searchablePlaceholder}
                                 onChangeText={(text) => {
